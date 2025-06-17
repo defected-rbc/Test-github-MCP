@@ -88,9 +88,6 @@ st.markdown(
         `create a public repository called 'my-awesome-project' with description 'A new project managed by the MCP assistant.'`
     * **List your repositories:**
         `list all my github repositories`
-    * **Delete a repository (use with caution!):**
-        `delete the repository named 'your_username/old-test-repo'`
-        **(Important:** Replace 'your_username' with your actual GitHub username and 'old-test-repo' with the exact repository name. This action is irreversible.)
     
     ---
     
@@ -98,12 +95,6 @@ st.markdown(
     * Be **specific** about what you want to achieve.
     * Include all **necessary details** (e.g., repository name, public/private status, description).
     * I'll do my best to understand, but if I struggle, try rephrasing your request.
-    
-    ---
-    
-    **⚠️ Critical Warning for Delete Operations:**
-    Commands like `delete` perform **irreversible actions** on your GitHub account.
-    Please use them with extreme care and double-check the repository name before confirming.
     """
 )
 
