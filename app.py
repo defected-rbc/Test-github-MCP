@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 
 from langchain_google_genai import ChatGoogleGenerativeAI 
 from mcp_use import MCPAgent, MCPClient 
-# Removed: from langchain.agents import AgentExecutor # Not needed if MCPAgent is self-contained
 
 
 # Load environment variables from .env file
@@ -25,7 +24,7 @@ if not GOOGLE_API_KEY:
 
 # --- MCP Client Configuration ---
 mcp_config = {
-    "mcpServers": {
+    "mcpServers": { # This key is important for the MCPClient
         "github-mcp-remote": {
             "type": "http",
             "url": "https://api.githubcopilot.com/mcp/",
@@ -40,8 +39,13 @@ mcp_config = {
 
 llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=GOOGLE_API_KEY, temperature=0)
 
+# Initialize the MCPClient from the configuration
 try:
-    mcp_client = MCPClient(mcp_config["mcpServers"])
+    # --- FIX START ---
+    # Pass the entire mcp_config dictionary to the MCPClient constructor.
+    # The MCPClient internally expects to find the "mcpServers" key.
+    mcp_client = MCPClient(mcp_config) 
+    # --- FIX END ---
 except Exception as e:
     st.error(f"Failed to initialize MCP client: {e}")
     st.stop()
@@ -121,14 +125,6 @@ with st.expander("Debug: Discovered MCP Tools"):
     would determine what appears in your console. If you're not seeing verbose `Thought`/`Action`/`Observation`
     output, it means the `MCPAgent` itself isn't printing it for direct use.
     """)
-    # Removed the lines that caused the AttributeError:
-    # st.write(f"Number of tools discovered by MCPAgent: {len(agent.tools)}") 
-    # if agent.tools:
-    #     st.write("First 3 discovered tools (names and descriptions):")
-    #     for tool in agent.tools[:3]:
-    #         st.write(f"- **{tool.name}**: {tool.description}")
-    # else:
-    #     st.write("No tools discovered by the MCPAgent. This is a critical issue.")
 
 
 # Accept user input
